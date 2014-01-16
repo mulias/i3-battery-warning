@@ -12,3 +12,9 @@ $ crontab -e
 Add the folowing line to check battery status every minute
 
 */1 * * * * /PATH/TO/YOUR/SCRIPT/i3batwarn.sh
+
+Todo
+----
+* Add buttons for shutdown/hibernate/sleep
+* Change warning message
+* does not work with cron
