@@ -42,11 +42,9 @@ pid=$$
 ps -f -p $pid --no-headers | awk '{print $2,$3}' > $LOCK_FILE
 # starting with process id $pid
 
-# set Battery
-BATTERY=$(ls /sys/class/power_supply/ | grep '^BAT')
 
-# set full path
-ACPI_PATH="/sys/class/power_supply/$BATTERY"
+# set full battery path
+ACPI_PATH="/sys/class/power_supply/BAT0"
 
 # get battery status
 STAT=$(cat $ACPI_PATH/status)
@@ -61,7 +59,7 @@ FULL=`grep "POWER_SUPPLY_ENERGY_FULL_DESIGN" $ACPI_PATH/uevent | cut -d= -f2`
 PERCENT=`echo $(( $REM * 100 / $FULL ))`
 
 # set error message
-MESSAGE="AWW SNAP! I am running out of juice ...  Please, charge me or I'll have to power down."
+MESSAGE="Low Battery: $PERCENT % remaining."
 
 # set energy limit in percent, where warning should be displayed
 LIMIT="10"
@@ -69,5 +67,5 @@ LIMIT="10"
 # show warning if energy limit in percent is less then user set limit and
 # if battery is discharging
 if [ $PERCENT -le "$(echo $LIMIT)" ] && [ "$STAT" == "Discharging" ]; then
-    DISPLAY=:0.0 /usr/bin/i3-nagbar -m "$(echo $MESSAGE)"
+    DISPLAY=:0.0 i3-nagbar -m "$(echo $MESSAGE)" -b 'Suspend' 'systemctl suspend' -b 'Hibernate' 'systemctl hibernate' -b  'Shutdown' 'systemctl poweroff'
 fi
