@@ -17,13 +17,14 @@ Added Notes
 -----------
 I've added a useful (if less interesting) warning message with % battery left. Also added buttons to the warning bar to Shut down, Hibernate, or Sleep the system. Each button executes the corresponding systemctl command.  
 
-One remaining issue is that the buttons do not seem to work when the script is executed through cron. Situations I have tested:
+One remaining issue is that the buttons do not seem to work when the script is executed through cron. Situations I have tested:  
 * run script as normal user - buttons work
 * run script with sudo - buttons work
 * run script through user cron - buttons do not work
 * run script through root cron - buttons do not work
 * boot into root, run script - buttons work
-* boot into root, run root cron - buttons work
+* boot into root, run root cron - buttons work  
+
 Further investigation required.
  
 Todo
